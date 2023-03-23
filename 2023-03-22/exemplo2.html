@@ -1,0 +1,26 @@
+<html>
+  <body>
+    <script>
+      var numero = 0;
+      var stories = [
+        {
+          usuario: "isaque",
+          data: "2023-01-01",
+        },
+        {
+          usuario: "vitor",
+          data: "2023-01-02",
+        },
+      ];
+      stories = stories.sort((b, a) => new Date(a.data) - new Date(b.data));
+      console.log(stories);
+
+      while (numero < stories.length) {
+        console.log(
+          `mostrando story de ${stories[numero].usuario} publicado em ${stories[numero].data} `
+        );
+        numero++;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+SE HORA > 0 E A HORA < 12 ENTÃO MOSTRAR BOM DIA NO SITE
+
+SE HORA > 12 E A HORA < 18 ENTÃO MOSTRAR BOA TARDE NO SITE
+
+SE HORA > 18 E A HORA < 24 ENTÃO MOSTRAR BOA NOITE NO SITE
+
+var hora = -5;
+
+if (hora > 0) && (hora < 12){
+  //mostra bom dia
+}
+
+
+comparadores em javascript
+https://www.w3schools.com/js/js_comparisons.asp
