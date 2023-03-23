@@ -1,0 +1,25 @@
+<html>
+
+	<body>
+
+		<p>Olá mundo!!!</p>
+		
+
+		<script>
+			var hora = new Date().getHours();
+
+			if (hora > 0 && hora < 12){
+				document.querySelector('p').innerText = 'Bom dia';
+			}
+			if (hora > 12 && hora < 18){
+				document.querySelector('p').innerText = 'Boa tarde';
+			}
+			if (hora > 18 && hora < 24){
+				document.querySelector('p').innerText = 'Boa noite';
+			}
+		</script>
+	</body>
+
+
+
+</html>
