@@ -1,0 +1,40 @@
+<html>
+  <body>
+    rua
+    <input type="text" id="rua" />
+
+    bairro
+    <input type="text" id="bairro" />
+
+    cep
+    <input type="text" id="cep" />
+
+    <script>
+        var campoCep = document.getElementById('cep')
+        var campoBairro = document.getElementById('bairro')
+        var campoRua = document.getElementById('rua')
+
+        campoRua.addEventListener('change',function () {
+            console.log(retornarEndereco(campoRua.value,campoBairro.value,campoCep.value))
+        })
+
+      function converterDolarParaReais(valor) {
+        return valor * 8.7;
+      }
+
+      function converterReaisParaDolar(valor) {
+        return valor / 8.7;
+      }
+
+      function retornarEndereco(rua, bairro, cep) {
+        return "Rua: " + rua + " Bairro: " + bairro + " Cep: " + cep;
+      }
+
+      var i = 1;
+      while (i < 10) {
+        console.log(converterDolarParaReais(i * 5));
+        i++;
+      }
+    </script>
+  </body>
+</html>
