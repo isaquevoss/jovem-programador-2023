@@ -1,0 +1,43 @@
+<html>
+  <body>
+    qtd
+    <input type="number" id="qtdIngressos" />
+    qtd Estudantes
+    <input type="number" id="qtdEstudantes" />
+
+    preco
+    <input type="number" id="precoIngresso" />
+    preco estudante
+    <input type="number" id="precoEstudante" />
+    <p id="detalhes"></p>
+    <p id="total">aqui vai mostrar o resultado</p>
+
+    <script>
+
+      var campoQtd =  document.getElementById('qtdIngressos');
+      var campoQtdEstudante = document.getElementById('qtdEstudantes')
+      var campoPreco = document.getElementById('precoIngresso')
+      var campoPrecoEstudante = document.getElementById('precoEstudante')
+      var campoTotal = document.getElementById('total')
+      var campoDetalhes = document.getElementById('detalhes')
+
+
+      campoQtd.addEventListener('change', mostrarValorTotal);  
+      campoQtdEstudante.addEventListener('change', mostrarValorTotal);  
+      campoPreco.addEventListener('change', mostrarValorTotal);  
+      campoPrecoEstudante.addEventListener('change', mostrarValorTotal);  
+
+
+
+      function mostrarValorTotal(){
+        campoDetalhes.innerText = 'Ingressos Normais: '+campoQtd.value + ' Ingressos Estudantes : '+campoQtdEstudante.value;
+        campoTotal.innerText = 'TOTAL: R$ '+ valorTotal(campoPreco.value, campoQtd.value, campoPrecoEstudante.value, campoQtdEstudante.value).toLocaleString();
+      }
+      function valorTotal(preco,qtdIngressosNormais,precoEstudante,qtdIngressosEstudantes) {
+        return (
+          preco * qtdIngressosNormais + precoEstudante * qtdIngressosEstudantes
+        );
+      }
+    </script>
+  </body>
+</html>
