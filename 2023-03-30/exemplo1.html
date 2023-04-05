@@ -9,13 +9,16 @@
     cep
     <input type="text" id="cep" />
 
+    <p id="endereco"></p>
+
     <script>
         var campoCep = document.getElementById('cep')
         var campoBairro = document.getElementById('bairro')
         var campoRua = document.getElementById('rua')
+        var endereco = document.getElementById('endereco')
 
         campoRua.addEventListener('change',function () {
-            console.log(retornarEndereco(campoRua.value,campoBairro.value,campoCep.value))
+            endereco.innerText = retornarEndereco(campoRua.value, campoBairro.value, campoCep.value)
         })
 
       function converterDolarParaReais(valor) {
