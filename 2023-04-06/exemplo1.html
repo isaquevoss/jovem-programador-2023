@@ -1,0 +1,24 @@
+<html>
+<body>
+    <input type="text" id="nome" value="texto no campo">
+    <input type="text" id="sobrenome" value="texto no campo">
+    
+    <input type="text" id="nomeCompleto">
+    
+    <script>
+        var campoNome = document.getElementById('nome')
+        var campoSobrenome = document.getElementById('sobrenome')
+        var nomeCompleto = document.getElementById('nomeCompleto')
+
+        campoNome.addEventListener('keyup', atualizarNomeCompleto)
+        campoSobrenome.addEventListener('keyup', atualizarNomeCompleto)
+
+        function atualizarNomeCompleto() {
+            nomeCompleto.value = campoNome.value + campoSobrenome.value 
+        }
+
+        console.log(campoNome)
+    
+    </script>
+</body>
+</html>
