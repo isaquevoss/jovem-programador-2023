@@ -27,8 +27,6 @@
       campoPreco.addEventListener('change', mostrarValorTotal);  
       campoPrecoEstudante.addEventListener('change', mostrarValorTotal);  
 
-
-
       function mostrarValorTotal(){
         campoDetalhes.innerText = 'Ingressos Normais: '+campoQtd.value + ' Ingressos Estudantes : '+campoQtdEstudante.value;
         campoTotal.innerText = 'TOTAL: R$ '+ valorTotal(campoPreco.value, campoQtd.value, campoPrecoEstudante.value, campoQtdEstudante.value).toLocaleString();
