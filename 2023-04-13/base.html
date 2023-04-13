@@ -7,13 +7,13 @@
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
 
-    context.fillStyle = 'black';
-    context.fillRect(0,1,1,1);
-
+    context.fillStyle = 'black'; // define a cor que vai ser utilizada para desenhar no canvas
+    context.clearRect(0,0,20,20) // limpa o canvas
+    context.fillRect(0,1,1,1); // desenha um retangulo/quadrado no canvas
+    
     context.fillRect(6,3,1,1);
 
     context.fillRect(13,7,1,1);
-
     
 </script>
 

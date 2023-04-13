@@ -1,0 +1,63 @@
+<html>
+<body>
+    <canvas id="canvas" height="20" width="20" style="border: 1px solid #CCC;
+    height: 500px; width: 500px; image-rendering: pixelated;"></canvas>  
+</body>
+<script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+
+    context.fillStyle = 'black';
+
+    var jogador1 = {
+        nome: 'jogador1',
+        x: 0,
+        y: 0
+    };
+    
+    function limparTela(){
+        context.clearRect(0,0,20,20)
+    }
+
+    function desenhar(x,y,largura,altura){
+        context.fillRect(x,y,largura,altura);
+    }
+
+    function desenharJogador(jogador){
+        limparTela();
+        desenhar(jogador.x,jogador.y,1,1);
+    }
+
+    function moverJogador(jogador){
+        if (jogador.x < 19)
+            jogador.x++;
+        else
+            jogador.x = 0      
+            
+        desenharJogador(jogador)
+    }
+
+    function moverJogadorParaEsquerda(jogador){
+        if (jogador.x > 0)
+            jogador.x--;
+        else
+            jogador.x = 19      
+            
+        desenharJogador(jogador)
+    }
+
+    document.addEventListener('keydown', function (evento){
+        if(evento.key == 'ArrowRight'){
+            moverJogador(jogador1);
+        }
+        if(evento.key == 'ArrowLeft'){
+            moverJogadorParaEsquerda(jogador1);
+        }
+
+    })
+
+
+    
+</script>
+
+</html>
