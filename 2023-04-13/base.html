@@ -4,7 +4,15 @@
     height: 500px; width: 500px; image-rendering: pixelated;"></canvas>  
 </body>
 <script>
-    
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+
+    context.fillStyle = 'black';
+    context.fillRect(0,1,1,1);
+
+    context.fillRect(6,3,1,1);
+
+    context.fillRect(13,7,1,1);
 
     
 </script>
