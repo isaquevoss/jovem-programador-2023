@@ -23,8 +23,7 @@
         context.fillRect(x,y,largura,altura);
     }
     
-    function desenharJogador(jogador){
-        
+    function desenharJogador(jogador){        
         limparTela();
         desenhar(jogador.x,jogador.y,1,1);
     }
@@ -47,15 +46,17 @@
         desenharJogador(jogador)
     }
 
-    document.addEventListener('keydown', function (evento){
+
+
+    document.addEventListener('keydown',   function (evento){
+        console.log(evento.key)
         if(evento.key == 'ArrowRight'){
             moverJogador(jogador1);
         }
         if(evento.key == 'ArrowLeft'){
             moverJogadorParaEsquerda(jogador1);
         }
-
-    })
+    }  )
 
 
     
