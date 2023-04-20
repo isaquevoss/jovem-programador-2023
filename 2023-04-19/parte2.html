@@ -1,0 +1,104 @@
+<html>
+  <body>
+    <canvas
+      id="canvas"
+      height="20"
+      width="20"
+      style="
+        border: 1px solid #ccc;
+        height: 500px;
+        width: 500px;
+        image-rendering: pixelated;
+      "
+    ></canvas>
+  </body>
+  <script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    var jogo = {
+      jogadores: [],
+      frutas: [],
+    };
+
+    var jogador1 = {
+      x: 0,
+      y: 0,
+      cor: "blue",
+    };
+
+    jogo.jogadores.push(jogador1);
+
+    document.addEventListener("keydown", moverJogador);
+
+    function moverJogador(evento) {
+      if (evento.key == "ArrowUp") {
+        jogador1.y--;
+      }
+      if (evento.key == "ArrowDown") {
+        jogador1.y++;
+      }
+      if (evento.key == "ArrowRight") {
+        jogador1.x++;
+      }
+      if (evento.key == "ArrowLeft") {
+        jogador1.x--;
+      }
+      checarColisao(jogador1);
+
+      desenharJogo();
+    }
+
+    function desenharJogo() {
+      limparTela();
+      desenharFrutas(jogo.frutas);
+      desenharJogadores(jogo.jogadores);
+    }
+
+    function limparTela() {
+      context.clearRect(0, 0, 20, 20);
+    }
+    function desenharJogadores(jogadores) {
+      for (var i = 0; i < jogadores.length; i++) {
+        var jogador = jogadores[i];
+        context.fillStyle = jogador.cor;
+        context.fillRect(jogador.x, jogador.y, 1, 1);
+      }
+    }
+
+    function desenharFrutas(frutas) {
+      for (var i = 0; i < frutas.length; i++) {
+        var fruta = frutas[i];
+
+        context.fillStyle = fruta.cor;
+        context.fillRect(fruta.x, fruta.y, 1, 1);
+      }
+    }
+
+    function adicionarFrutasAutomaticamente() {
+      setInterval(adicionarFruta, 2500);
+    }
+    function adicionarFruta() {
+      if (jogo.frutas.length < 15) {
+        jogo.frutas.push({ x: getRandom(19), y: getRandom(19), cor: "purple" });
+        desenharJogo();
+      }
+    }
+    function getRandom(max){
+      return Math.floor(Math.random() * max + 1)
+    }    
+
+    function checarColisao(jogador){
+      var frutas = jogo.frutas;
+      for (var i = 0; i < frutas.length; i++){
+        var fruta = frutas[i]
+        if (fruta.x == jogador.x && fruta.y == jogador.y ){
+          frutas.splice(i,1)
+        }
+      }
+
+    }
+
+    adicionarFrutasAutomaticamente();
+  </script>
+</html>
