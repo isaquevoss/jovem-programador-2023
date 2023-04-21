@@ -11,6 +11,7 @@
         image-rendering: pixelated;
       "
     ></canvas>
+    <button onclick="adicionarJogadorVirtual()">Adicionar jogador</button>
   </body>
   <script>
     var canvas = document.getElementById("canvas");
@@ -36,38 +37,46 @@
       jogo.jogadores.push(jogador);
 
       setInterval(function () {
-        if (jogador.x < 19) jogador.x++;
-        else jogador.x = 0;
-        checarColisao(jogador);
-      }, 500);
+        moverJogadorVirtual(jogador)
+      }, 50);
+    }
+
+    function moverJogadorVirtual(jogador) {
+      var direcoes = ['',"ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+      var direcao = direcoes[getRandom(4)];
+      moverJogador(jogador, { key: direcao });
     }
 
     jogo.jogadores.push(jogador1);
 
-    document.addEventListener("keydown", moverJogador);
+    document.addEventListener("keydown", ouvirTeclas);
 
-    function moverJogador(evento) {
+    function ouvirTeclas(evento) {
+      moverJogador(jogador1, evento);
+    }
+
+    function moverJogador(jogador, evento) {
       if (evento.key == "ArrowUp") {
-        if (jogador1.y > 0) {
-          jogador1.y--;
+        if (jogador.y > 0) {
+          jogador.y--;
         }
       }
       if (evento.key == "ArrowDown") {
-        if (jogador1.y < 19) {
-          jogador1.y++;
+        if (jogador.y < 19) {
+          jogador.y++;
         }
       }
       if (evento.key == "ArrowRight") {
-        if (jogador1.x < 19) {
-          jogador1.x++;
+        if (jogador.x < 19) {
+          jogador.x++;
         }
       }
       if (evento.key == "ArrowLeft") {
-        if (jogador1.x > 0) {
-          jogador1.x--;
+        if (jogador.x > 0) {
+          jogador.x--;
         }
       }
-      checarColisao(jogador1);
+      checarColisao(jogador);
     }
 
     function desenharJogo() {
@@ -107,7 +116,7 @@
     }
 
     function adicionarFrutasAutomaticamente() {
-      setInterval(adicionarFruta, 500);      
+      setInterval(adicionarFruta, 500);
     }
     function adicionarFruta() {
       if (jogo.frutas.length < 15) {
