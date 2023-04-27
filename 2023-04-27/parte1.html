@@ -1,0 +1,162 @@
+<html>
+  <body>
+    <canvas
+      id="canvas"
+      height="20"
+      width="20"
+      style="
+        border: 1px solid #ccc;
+        height: 500px;
+        width: 500px;
+        image-rendering: pixelated;
+      "
+    ></canvas>
+    <br>
+    <label for="velocidadeJogadorVirtual">Velocidade: </label>
+    <input type="number" id="velocidadeJogadorVirtual" value="500">
+    <button onclick="adicionarJogadorVirtual()">Adicionar jogador</button>
+
+    <br>
+    <label for="quantidadeFrutas"> quantidade frutas</label>    
+    <input id="quantidadeFrutas" type="number">
+    <br>
+    <label for="velocidadeFrutas">Velocidade para criar frutas</label>
+    <input type="number" id="velocidadeFrutas">
+    <button>Atualizar parâmetros</button>
+  </body>
+  <script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    var jogo = {
+      jogadores: [],
+      frutas: [],
+      limiteDeFrutas: 30,
+      velocidadeFrutas: 500,
+      velocidadeJogadorVirtual: 300,
+      podeAdicionarFrutas: function () {
+        return this.limiteDeFrutas > this.frutas.length;
+      },
+    };
+
+    document.getElementById('velocidadeJogadorVirtual').value = jogo.velocidadeJogadorVirtual
+ 
+    var jogador1 = {
+      x: 0,
+      y: 0,
+      cor: "blue",
+    };
+
+    function adicionarJogadorVirtual() {
+      var jogador = {
+        x: getRandom(19),
+        y: getRandom(19),
+        cor: "green",
+      };
+      jogo.jogadores.push(jogador);
+
+      setInterval(function () {
+        moverJogadorVirtual(jogador);
+      }, jogo.velocidadeJogadorVirtual);
+    }
+
+    function moverJogadorVirtual(jogador) {
+      var direcoes = ["", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+      var direcao = direcoes[getRandom(4)];
+      moverJogador(jogador, { key: direcao });
+    }
+
+    jogo.jogadores.push(jogador1);
+
+    document.addEventListener("keydown", ouvirTeclas);
+
+    function ouvirTeclas(evento) {
+      moverJogador(jogador1, evento);
+    }
+
+    function moverJogador(jogador, evento) {
+      if (evento.key == "ArrowUp") {
+        if (jogador.y > 0) {
+          jogador.y--;
+        }
+      }
+      if (evento.key == "ArrowDown") {
+        if (jogador.y < 19) {
+          jogador.y++;
+        }
+      }
+      if (evento.key == "ArrowRight") {
+        if (jogador.x < 19) {
+          jogador.x++;
+        }
+      }
+      if (evento.key == "ArrowLeft") {
+        if (jogador.x > 0) {
+          jogador.x--;
+        }
+      }
+      checarColisao(jogador);
+    }
+
+    function desenharJogo() {
+      limparTela();
+      desenharFrutas(jogo.frutas);
+      desenharJogadores(jogo.jogadores);
+    }
+
+    function renderizarJogo() {
+      desenharJogo();
+
+      requestAnimationFrame(function () {
+        renderizarJogo();
+      });
+    }
+
+    renderizarJogo();
+
+    function limparTela() {
+      context.clearRect(0, 0, 20, 20);
+    }
+    function desenharJogadores(jogadores) {
+      for (var i = 0; i < jogadores.length; i++) {
+        var jogador = jogadores[i];
+        context.fillStyle = jogador.cor;
+        context.fillRect(jogador.x, jogador.y, 1, 1);
+      }
+    }
+
+    function desenharFrutas(frutas) {
+      for (var i = 0; i < frutas.length; i++) {
+        var fruta = frutas[i];
+
+        context.fillStyle = fruta.cor;
+        context.fillRect(fruta.x, fruta.y, 1, 1);
+      }
+    }
+
+    function adicionarFrutasAutomaticamente() {
+      setInterval(adicionarFruta, jogo.velocidadeFrutas);
+    }
+
+    function adicionarFruta() {
+      if (jogo.podeAdicionarFrutas()) {
+        jogo.frutas.push({ x: getRandom(19), y: getRandom(19), cor: "purple" });
+      }
+    }
+    function getRandom(max) {
+      return Math.floor(Math.random() * max + 1);
+    }
+
+    function checarColisao(jogador) {
+      var frutas = jogo.frutas;
+      for (var i = 0; i < frutas.length; i++) {
+        var fruta = frutas[i];
+        if (fruta.x == jogador.x && fruta.y == jogador.y) {
+          frutas.splice(i, 1);
+        }
+      }
+    }
+
+    adicionarFrutasAutomaticamente();
+  </script>
+</html>
