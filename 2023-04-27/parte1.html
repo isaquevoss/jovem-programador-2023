@@ -4,54 +4,86 @@
       id="canvas"
       height="20"
       width="20"
-      style="
-        border: 1px solid #ccc;
-        height: 500px;
-        width: 500px;
-        image-rendering: pixelated;
-      "
+      style="border: 1px solid #ccc; height: 500px; width: 500px; image-rendering: pixelated"
     ></canvas>
-    <br>
+    <br />
     <label for="velocidadeJogadorVirtual">Velocidade: </label>
-    <input type="number" id="velocidadeJogadorVirtual" value="500">
+    <input type="number" id="velocidadeJogadorVirtual" value="500" />
     <button onclick="adicionarJogadorVirtual()">Adicionar jogador</button>
 
-    <br>
-    <label for="quantidadeFrutas"> quantidade frutas</label>    
-    <input id="quantidadeFrutas" type="number">
-    <br>
+    <br />
+    <label for="quantidadeFrutas"> quantidade frutas</label>
+    <input id="quantidadeFrutas" type="number" />
+    <br />
     <label for="velocidadeFrutas">Velocidade para criar frutas</label>
-    <input type="number" id="velocidadeFrutas">
-    <button>Atualizar parâmetros</button>
+    <input type="number" id="velocidadeFrutas" />
+    <button onclick="atualizarParametros()">Atualizar parâmetros</button>
+
+    <br />
+    <button onclick="iniciarJogo()">Iniciar Jogo</button>
   </body>
   <script>
-    var canvas = document.getElementById("canvas");
-    var context = canvas.getContext("2d");
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
 
     var jogo = {
       jogadores: [],
       frutas: [],
       limiteDeFrutas: 30,
-      velocidadeFrutas: 500,
+      velocidadeFrutas: 1000,
       velocidadeJogadorVirtual: 300,
       podeAdicionarFrutas: function () {
         return this.limiteDeFrutas > this.frutas.length;
       },
     };
 
-    document.getElementById('velocidadeJogadorVirtual').value = jogo.velocidadeJogadorVirtual
- 
+    function iniciarJogo() {
+      atualizarParametros();
+      adicionarFrutasAutomaticamente();
+    }
+
+    carregarParametros();
+    document.getElementById('velocidadeJogadorVirtual').value = jogo.velocidadeJogadorVirtual;
+    document.getElementById('quantidadeFrutas').value = jogo.limiteDeFrutas;
+    document.getElementById('velocidadeFrutas').value = jogo.velocidadeFrutas;
+
+    function atualizarParametros() {
+      jogo.velocidadeJogadorVirtual = document.getElementById('velocidadeJogadorVirtual').value;
+      jogo.limiteDeFrutas = document.getElementById('quantidadeFrutas').value;
+      jogo.velocidadeFrutas = document.getElementById('velocidadeFrutas').value;
+      salvarParametros();
+    }
+
+    function salvarParametros() {
+      localStorage.setItem('velocidadeJogadorVirtual', jogo.velocidadeJogadorVirtual);
+      localStorage.setItem('limiteDeFrutas', jogo.limiteDeFrutas);
+      localStorage.setItem('velocidadeFrutas', jogo.velocidadeFrutas);
+    }
+
+    function carregarParametros() {
+      if (localStorage.getItem('velocidadeFrutas')) {
+        jogo.velocidadeFrutas = localStorage.getItem('velocidadeFrutas');
+      }
+      if (localStorage.getItem('limiteDeFrutas')) {
+        jogo.limiteDeFrutas = localStorage.getItem('limiteDeFrutas');
+      }
+      if (localStorage.getItem('velocidadeJogadorVirtual')) {
+        jogo.velocidadeJogadorVirtual = localStorage.getItem('velocidadeJogadorVirtual');
+      }
+    }
+
     var jogador1 = {
       x: 0,
       y: 0,
-      cor: "blue",
+      cor: 'blue',
     };
 
     function adicionarJogadorVirtual() {
+      atualizarParametros();
       var jogador = {
         x: getRandom(19),
         y: getRandom(19),
-        cor: "green",
+        cor: 'green',
       };
       jogo.jogadores.push(jogador);
 
@@ -61,36 +93,36 @@
     }
 
     function moverJogadorVirtual(jogador) {
-      var direcoes = ["", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+      var direcoes = ['', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
       var direcao = direcoes[getRandom(4)];
       moverJogador(jogador, { key: direcao });
     }
 
     jogo.jogadores.push(jogador1);
 
-    document.addEventListener("keydown", ouvirTeclas);
+    document.addEventListener('keydown', ouvirTeclas);
 
     function ouvirTeclas(evento) {
       moverJogador(jogador1, evento);
     }
 
     function moverJogador(jogador, evento) {
-      if (evento.key == "ArrowUp") {
+      if (evento.key == 'ArrowUp') {
         if (jogador.y > 0) {
           jogador.y--;
         }
       }
-      if (evento.key == "ArrowDown") {
+      if (evento.key == 'ArrowDown') {
         if (jogador.y < 19) {
           jogador.y++;
         }
       }
-      if (evento.key == "ArrowRight") {
+      if (evento.key == 'ArrowRight') {
         if (jogador.x < 19) {
           jogador.x++;
         }
       }
-      if (evento.key == "ArrowLeft") {
+      if (evento.key == 'ArrowLeft') {
         if (jogador.x > 0) {
           jogador.x--;
         }
@@ -140,7 +172,7 @@
 
     function adicionarFruta() {
       if (jogo.podeAdicionarFrutas()) {
-        jogo.frutas.push({ x: getRandom(19), y: getRandom(19), cor: "purple" });
+        jogo.frutas.push({ x: getRandom(19), y: getRandom(19), cor: 'purple' });
       }
     }
     function getRandom(max) {
@@ -156,7 +188,5 @@
         }
       }
     }
-
-    adicionarFrutasAutomaticamente();
   </script>
 </html>
