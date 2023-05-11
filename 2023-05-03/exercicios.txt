@@ -1,0 +1,6 @@
+Ideias de implementações.
+
+- Adicionar frutas com pontuações diferentes
+- Diminuir pontos quanto bater na parede 
+- Diminuir pontos quando bater em outro player
+- 
