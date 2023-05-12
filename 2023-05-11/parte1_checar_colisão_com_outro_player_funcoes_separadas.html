@@ -214,7 +214,9 @@
     const tiposFrutas = [{}, { pontos: 1, cor: 'purple' }, { pontos: 2, cor: 'green' }, { pontos: 3, cor: 'pink' }];
 
     function adicionarFruta() {
+      console.log('adicionar frutas linha 217')
       if (jogo.podeAdicionarFrutas()) {
+        console.log('entrou no if que pode adicionar')
         const tipo = tiposFrutas[getRandom(tiposFrutas.length - 1)];
         jogo.frutas.push({
           x: getRandom(19),
@@ -229,6 +231,7 @@
     }
 
     function checarColisaoComFrutas(jogador) {
+      console.log('checar colisao com frutas ')
       var frutas = jogo.frutas;
       for (var i = 0; i < frutas.length; i++) {
         var fruta = frutas[i];
