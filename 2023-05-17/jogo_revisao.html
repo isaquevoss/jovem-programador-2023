@@ -1,0 +1,50 @@
+<html>
+  <body>
+    <canvas
+      id="canvas"
+      height="20"
+      width="20"
+      style="border: 15px solid #ccc; height: 500px; width: 500px; image-rendering: pixelated"
+    ></canvas>
+
+    <button id="botao">MEU BOTÃO</button>
+    <script>
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+
+      var jogo = {
+        jogadores: [],
+        frutas: [],
+        tamanho: 0,
+        velocidadeFrutas: 300,
+        podeAdicionarFrutas: function () {},
+
+        adicionarFrutas: function () {},
+        iniciar: function () {},
+      };
+
+      // setInterval(function () {
+      //     console.log('interval '+ new Date() )
+      // },500)
+
+      // setInterval(function () {
+      //     console.log('interval')
+      // },1500)
+
+      function moverJogadorVirtual() {
+        console.log('movendo jogador virtual');
+      }
+
+      // var intervalMoverJogador = setInterval(moverJogadorVirtual, 500);
+
+      jogo.iniciar();
+
+      function adicionarJogadorVirtual() {}
+
+      document.addEventListener('keyup', function (event) {
+        console.log('chegou aqui na linha 37');
+        console.log(event);
+      });
+    </script>
+  </body>
+</html>
