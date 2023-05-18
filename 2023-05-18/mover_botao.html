@@ -1,0 +1,19 @@
+<html>
+  <body>
+    <button id="btSim">SIM</button>
+    <button id="btNao">Nao</button>
+    <script>
+      var btNao = document.getElementById('btNao');
+
+      btNao.addEventListener('mousemove', function () {
+          btNao.style.position = 'absolute';
+          btNao.style.top = gerarNumeroAleatorio(210);
+          btNao.style.left = gerarNumeroAleatorio(250);
+        });
+
+      function gerarNumeroAleatorio(maximo) {
+        return Math.floor(Math.random() * (maximo + 1));
+      }
+    </script>
+  </body>
+</html>
