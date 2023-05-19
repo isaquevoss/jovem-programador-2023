@@ -20,11 +20,10 @@
       }
       function adicionarPlayer1() {
         var nome = document.getElementById('nome').value;
-        jogador1 = jogo.adicionarJogador(nome, 'blue');        
+        jogador1 = jogo.adicionarJogador(nome, 'blue');
         renderizarJogo();
       }
 
-  
       function moverJogador(jogador, evento) {
         if (evento.key == 'ArrowRight') {
           if (jogador.x < 19) {
@@ -74,22 +73,30 @@
           });
           jogo.jogadores.splice(indiceDoJogador, 1);
         },
-        adicionarFruta: function (){
+        adicionarFruta: function () {
           var fruta = {
             x: numeroAleatorio(19),
             y: numeroAleatorio(19),
             pontos: 1,
-            cor: 'purple'
-          }
+            cor: 'purple',
+          };
           this.frutas.push(fruta);
           return fruta;
-        }
+        },
       };
 
       var intervalFrutas = setInterval(function () {
         jogo.adicionarFruta();
-      },1500)
+      }, 1500);
 
+      function checarColisaoFrutas(jogador){
+        for(var i =0; i < jogo.frutas.length; i++){
+          //implentar a verificação de colisao exemplo
+          if (jogador.x == jogo.frutas[i].x){ //aqui está incompleto
+            //remover a fruta
+          }
+        }
+      }
 
       function desenharJogadores() {
         for (var i = 0; i < jogo.jogadores.length; i++) {
@@ -100,12 +107,17 @@
       }
 
       function desenharFrutas() {
-        //implementar
+        for (var i = 0; i < jogo.frutas.length; i++) {
+          var fruta = jogo.frutas[i];
+          context.fillStyle = fruta.cor;
+          context.fillRect(fruta.x, fruta.y, 1, 1);
+        }
       }
 
       function desenharJogo() {
-        desenharJogadores();
         desenharFrutas();
+        desenharJogadores();
+        
       }
 
       function mostrarPlacar() {}
