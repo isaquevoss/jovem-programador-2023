@@ -45,6 +45,7 @@
             jogador.y--;
           }
         }
+        checarColisaoFrutas(jogador)
       }
 
       document.addEventListener('keydown', function (event) {
@@ -89,11 +90,12 @@
         jogo.adicionarFruta();
       }, 1500);
 
-      function checarColisaoFrutas(jogador){
-        for(var i =0; i < jogo.frutas.length; i++){
-          //implentar a verificação de colisao exemplo
-          if (jogador.x == jogo.frutas[i].x){ //aqui está incompleto
-            //remover a fruta
+      function checarColisaoFrutas(jogador) {
+        for (var i = 0; i < jogo.frutas.length; i++) {
+          if (jogador.x == jogo.frutas[i].x && jogador.y == jogo.frutas[i].y) {
+            jogador.pontos = jogador.pontos + jogo.frutas[i].pontos
+            jogo.frutas.splice(i, 1);
+
           }
         }
       }
@@ -117,7 +119,6 @@
       function desenharJogo() {
         desenharFrutas();
         desenharJogadores();
-        
       }
 
       function mostrarPlacar() {}
