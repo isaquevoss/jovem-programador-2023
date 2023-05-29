@@ -1,0 +1,150 @@
+<html>
+  <body>
+    <canvas
+      id="canvas"
+      height="20"
+      width="20"
+      style="border: 15px solid #ccc; height: 500px; width: 500px; image-rendering: pixelated"
+    ></canvas>
+    <br />
+    <label for="nome">Digite seu nome de jogador</label>
+    <input type="text" id="nome" />
+    <button onclick="adicionarPlayer1()">Iniciar jogo</button>
+
+    <script>
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+
+      function numeroAleatorio(numeroMaximo) {
+        return Math.floor(Math.random() * (numeroMaximo + 1));
+      }
+      function adicionarPlayer1() {
+        var nome = document.getElementById('nome').value;
+        jogador1 = jogo.adicionarJogador(nome, 'blue');
+        renderizarJogo();
+      }
+
+      function moverJogador(jogador, evento) {
+        if (evento.key == 'ArrowRight') {
+          if (jogador.x < 19) {
+            jogador.x++;
+          }
+        }
+        if (evento.key == 'ArrowLeft') {
+          if (jogador.x > 0) {
+            jogador.x--;
+          }
+        }
+        if (evento.key == 'ArrowDown') {
+          if (jogador.y < 19) {
+            jogador.y++;
+          }
+        }
+        if (evento.key == 'ArrowUp') {
+          if (jogador.y > 0) {
+            jogador.y--;
+          }
+        }
+        checarColisaoFrutas(jogador)
+      }
+
+      document.addEventListener('keydown', function (event) {
+        moverJogador(jogador1, event);
+      });
+
+      var jogador1;
+
+      var jogo = {
+        jogadores: [],
+        frutas: [],
+        adicionarJogador: function (nomeJogador, cor) {
+          var novoJogador = {
+            nome: nomeJogador,
+            x: numeroAleatorio(19),
+            y: numeroAleatorio(19),
+            cor: cor,
+            pontos: 0,
+          };
+          jogo.jogadores.push(novoJogador);
+          return novoJogador;
+        },
+        removerJogador: function (nomeJogador) {
+          var indiceDoJogador = jogo.jogadores.findIndex(function (jogador) {
+            return jogador.nome == nomeJogador;
+          });
+          jogo.jogadores.splice(indiceDoJogador, 1);
+        },
+        adicionarFruta: function () {
+          var fruta = {
+            x: numeroAleatorio(19),
+            y: numeroAleatorio(19),
+            pontos: 1,
+            cor: 'purple',
+          };
+          this.frutas.push(fruta);
+          return fruta;
+        },
+      };
+
+      var intervalFrutas = setInterval(function () {
+        jogo.adicionarFruta();
+      }, 1500);
+
+      
+      function adicionarJogadorVirtual(){
+        //adionar um novo jogador
+
+
+        //mover o jogador automaticamente        
+      }
+
+      function checarColisaoFrutas(jogador) {
+        for (var i = 0; i < jogo.frutas.length; i++) {
+          if (jogador.x == jogo.frutas[i].x && jogador.y == jogo.frutas[i].y) {
+            jogador.pontos = jogador.pontos + jogo.frutas[i].pontos
+            jogo.frutas.splice(i, 1);
+
+          }
+        }
+      }
+
+      function desenharJogadores() {
+        for (var i = 0; i < jogo.jogadores.length; i++) {
+          var jogador = jogo.jogadores[i];
+          context.fillStyle = jogador.cor;
+          context.fillRect(jogador.x, jogador.y, 1, 1);
+        }
+      }
+
+      function desenharFrutas() {
+        for (var i = 0; i < jogo.frutas.length; i++) {
+          var fruta = jogo.frutas[i];
+          context.fillStyle = fruta.cor;
+          context.fillRect(fruta.x, fruta.y, 1, 1);
+        }
+      }
+
+      function desenharJogo() {
+        desenharFrutas();
+        desenharJogadores();
+      }
+
+      function mostrarPlacar() {}
+
+      function limparTela() {
+        context.clearRect(0, 0, 20, 20);
+      }
+
+      function renderizarJogo() {
+        //essa função precisa ser chamada no console
+        limparTela();
+        desenharJogo();
+        mostrarPlacar();
+
+        requestAnimationFrame(function () {
+          renderizarJogo();
+        });
+      }
+    </script>
+  </body>
+</html>
