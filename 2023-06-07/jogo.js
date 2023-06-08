@@ -1,0 +1,175 @@
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+function numeroAleatorio(numeroMaximo) {
+  return Math.floor(Math.random() * (numeroMaximo + 1));
+}
+function adicionarPlayer1() {
+  var nome = document.getElementById('nome').value;
+  jogador1 = jogo.adicionarJogador(nome, 'blue');
+  renderizarJogo();
+}
+
+function moverJogador(jogador, evento) {
+  if (evento.key == 'ArrowRight') {
+    if (jogador.x < 19) {
+      jogador.x++;
+    }
+  }
+  if (evento.key == 'ArrowLeft') {
+    if (jogador.x > 0) {
+      jogador.x--;
+    }
+  }
+  if (evento.key == 'ArrowDown') {
+    if (jogador.y < 19) {
+      jogador.y++;
+    }
+  }
+  if (evento.key == 'ArrowUp') {
+    if (jogador.y > 0) {
+      jogador.y--;
+    }
+  }
+  checarColisaoFrutas(jogador);
+}
+
+document.addEventListener('keydown', function (event) {
+  moverJogador(jogador1, event);
+});
+
+var jogador1;
+
+var jogo = {
+  jogadores: [],
+  frutas: [],
+  adicionarJogador: function (nomeJogador, cor) {
+    var novoJogador = {
+      nome: nomeJogador,
+      x: numeroAleatorio(19),
+      y: numeroAleatorio(19),
+      cor: cor,
+      pontos: 0,
+    };
+    jogo.jogadores.push(novoJogador);
+    return novoJogador;
+  },
+  removerJogador: function (nomeJogador) {
+    var indiceDoJogador = jogo.jogadores.findIndex(function (jogador) {
+      return jogador.nome == nomeJogador;
+    });
+    jogo.jogadores.splice(indiceDoJogador, 1);
+  },
+  adicionarFruta: function () {
+    var fruta = {
+      x: numeroAleatorio(19),
+      y: numeroAleatorio(19),
+      pontos: 1,
+      cor: 'purple',
+    };
+    this.frutas.push(fruta);
+    return fruta;
+  },
+};
+
+var intervalFrutas = setInterval(function () {
+  jogo.adicionarFruta();
+}, 100);
+
+function adicionarJogadorVirtual() {
+  var jogador = jogo.adicionarJogador('jogador virtual', 'orange');
+
+  setInterval(function () {
+    var fruta = retornarFrutaMaisProxima(jogador);
+    if (fruta.x > jogador.x) {
+      return moverJogador(jogador, { key: 'ArrowRight' });
+    }
+    if (fruta.x < jogador.x) {
+      return moverJogador(jogador, { key: 'ArrowLeft' });
+    }
+    if (fruta.y > jogador.y) {
+      return moverJogador(jogador, { key: 'ArrowDown' });
+    }
+    if (fruta.y < jogador.y) {
+      return moverJogador(jogador, { key: 'ArrowUp' });
+    }
+    moverJogador(jogador, { key: 'ArrowUp' });
+  }, 30);
+}
+
+function retornarFrutaMaisProxima(jogador) {
+  var fruta;
+  var distanciaUltimaFruta = 99;
+  for (var i = 0; i < jogo.frutas.length; i++) {
+    var distanciax = jogo.frutas[i].x - jogador.x;
+    if (distanciax < 0) {
+      distanciax = distanciax * -1;
+    }
+    var distanciay = jogo.frutas[i].y - jogador.y;
+    if (distanciay < 0) {
+      distanciay = distanciay * -1;
+    }
+    if (distanciax + distanciay < distanciaUltimaFruta) {
+      distanciaUltimaFruta = distanciax + distanciay;
+      fruta = jogo.frutas[i];
+    }
+  }
+
+  return fruta;
+}
+
+function checarColisaoFrutas(jogador) {
+  for (var i = 0; i < jogo.frutas.length; i++) {
+    if (jogador.x == jogo.frutas[i].x && jogador.y == jogo.frutas[i].y) {
+      jogador.pontos = jogador.pontos + jogo.frutas[i].pontos;
+      jogo.frutas.splice(i, 1);
+    }
+  }
+}
+
+function desenharJogadores() {
+  for (var i = 0; i < jogo.jogadores.length; i++) {
+    var jogador = jogo.jogadores[i];
+    context.fillStyle = jogador.cor;
+    context.fillRect(jogador.x, jogador.y, 1, 1);
+  }
+}
+
+function desenharFrutas() {
+  for (var i = 0; i < jogo.frutas.length; i++) {
+    var fruta = jogo.frutas[i];
+    context.fillStyle = fruta.cor;
+    context.fillRect(fruta.x, fruta.y, 1, 1);
+  }
+}
+
+function desenharJogo() {
+  desenharFrutas();
+  desenharJogadores();
+  desenharPontuacao();
+}  
+
+function desenharPontuacao() {
+  var texto = '';
+  for (var i = 0; i < jogo.jogadores.length; i++) {
+    texto = texto + 'Jogador: ' + jogo.jogadores[i].nome + 'Pontos: ' + jogo.jogadores[i].pontos + '<br>';
+  }
+  document.getElementById('jogadores').innerHTML = texto;
+}
+
+function mostrarPlacar() {}
+
+function limparTela() {
+  context.clearRect(0, 0, 20, 20);
+}
+
+function renderizarJogo() {
+  //essa função precisa ser chamada no console
+  limparTela();
+  desenharJogo();
+  mostrarPlacar();
+
+  requestAnimationFrame(function () {
+    renderizarJogo();
+  });
+}
